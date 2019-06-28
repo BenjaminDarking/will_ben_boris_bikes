@@ -57,6 +57,17 @@ describe DockingStation do
   #   20.times { new_station_2.receive_bike(Bike.new) }
   #   expect { new_station_2.receive_bike(Bike.new) }.to raise_error "Docking Station full"
   # end
+  describe 'broken bike' do
+    it "reports a bike as broken when returned" do
+      bike = Bike.new
+      expect(subject.broken_bike(bike)).to eq [bike]
+    end
+    it "recieves two broken bikes" do
+      bike = Bike.new
+      subject.broken_bike(bike)
+      expect(subject.broken_bike(bike)).to eq [bike, bike]
+    end
+end
 
   describe 'initialization' do
     subject { DockingStation.new }
@@ -67,5 +78,14 @@ describe DockingStation do
       end
       expect{ subject.receive_bike(bike) }.to raise_error 'Docking station full'
     end
+    it 'defaults capacity' do
+    described_class::DEFAULT_CAPACITY.times do
+      subject.broken_bike(bike)
+    end
+    expect{ subject.receive_bike(bike) }.to raise_error 'Docking station full'
+
+  end
+
+
   end
 end
