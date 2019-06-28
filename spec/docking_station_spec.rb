@@ -52,10 +52,20 @@ describe DockingStation do
     end
   end
 
-  it "raises an Error after 20 tries to dock bike" do
-    new_station_2 = DockingStation.new
-    20.times { new_station_2.receive_bike(Bike.new) }
-    expect { new_station_2.receive_bike(Bike.new) }.to raise_error "Docking Station full"
-  end
+  # it "raises an Error after 20 tries to dock bike" do
+  #   new_station_2 = DockingStation.new
+  #   20.times { new_station_2.receive_bike(Bike.new) }
+  #   expect { new_station_2.receive_bike(Bike.new) }.to raise_error "Docking Station full"
+  # end
 
+  describe 'initialization' do
+    subject { DockingStation.new }
+    let(:bike) {Bike.new}
+    it 'defaults capacity' do
+      described_class::DEFAULT_CAPACITY.times do
+        subject.receive_bike(bike)
+      end
+      expect{ subject.receive_bike(bike) }.to raise_error 'Docking station full'
+    end
+  end
 end
