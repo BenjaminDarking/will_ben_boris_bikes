@@ -1,23 +1,26 @@
 require './lib/docking_station.rb'
 
+
 describe DockingStation do
   it 'responds to release_bike' do
     expect(subject).to respond_to :release_bike
   end
-  it 'raises an error if docking station is empty' do
-    docking_station_3 = DockingStation.new
-    expect(docking_station_3.release_bike).to raise_error "Empty"
-  end
+
   describe '#release_bike' do
+    it 'raises an error if docking station is empty' do
+      docking_station_3 = DockingStation.new
+      expect{docking_station_3.release_bike}.to raise_error "No bikes available"
+    end
+
     subject(:station) do
       station = DockingStation.new
       station.receive_bike(Bike.new)
       station
     end
 
-    it 'creates a Bike class when method is called' do
-      expect(station.release_bike).to be_an_instance_of(Bike)
-    end
+    # it 'creates a Bike class when method is called' do
+    #   expect(station.release_bike).to be_an_instance_of(Bike)
+    # end
 
     it 'releases working bikes' do
       expect(station.release_bike).to be_working

@@ -1,4 +1,4 @@
-DockingStation = Class.new
+require_relative 'Bike'
 
 class DockingStation
 
@@ -10,11 +10,8 @@ class DockingStation
   end
 
   def release_bike
-    if !empty?
-        @available_bikes.pop()
-    else
-      raise "Empty"
-  end
+    fail "No bikes available" if empty?
+    @available_bikes.pop()
   end
 
   def full?
